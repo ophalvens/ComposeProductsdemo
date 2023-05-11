@@ -196,6 +196,7 @@ fun ProductenLijst(
             modifier = Modifier
                 .background(MaterialTheme.colors.primaryVariant)
                 .fillMaxSize()
+                .padding(bottom = 48.dp)
         ){
             val producten = productenUiState.data.data
             items(producten){
