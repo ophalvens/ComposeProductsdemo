@@ -8,10 +8,11 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import net.ophalvens.composeproductsdemo.data.repository
+import net.ophalvens.composeproductsdemo.R
 import net.ophalvens.composeproductsdemo.network.Product
 import net.ophalvens.composeproductsdemo.ui.theme.ComposeProductsDemoTheme
 
@@ -28,7 +29,7 @@ fun Topbar(
         verticalAlignment = Alignment.CenterVertically
     ){
         Text(
-            text = "Demo SuperDuper Compose",
+            text = stringResource(R.string.app_title),
             color = MaterialTheme.colors.onPrimary
         )
     }
@@ -36,6 +37,7 @@ fun Topbar(
 
 @Composable
 fun BottomNavBar(
+    productenViewModel: ProductenViewModel,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .height(50.dp)
@@ -54,7 +56,21 @@ fun BottomNavBar(
                 .background(MaterialTheme.colors.primaryVariant)
         ) {
             Text(
-                text = "Producten",
+                text = stringResource(R.string.producten),
+                color = MaterialTheme.colors.onPrimary
+            )
+        }
+
+        Button(
+            onClick = {
+                // doe de call om een product toe te voegen.
+                productenViewModel.addProductToService()
+            },
+            modifier = Modifier
+                .background(MaterialTheme.colors.primaryVariant)
+        ) {
+            Text(
+                text = stringResource(R.string.product_nieuw),
                 color = MaterialTheme.colors.onPrimary
             )
         }
@@ -65,18 +81,7 @@ fun BottomNavBar(
                 .background(MaterialTheme.colors.primaryVariant)
         ) {
             Text(
-                text = "Nieuw Product",
-                color = MaterialTheme.colors.onPrimary
-            )
-        }
-
-        Button(
-            onClick = { /*TODO*/ },
-            modifier = Modifier
-                .background(MaterialTheme.colors.primaryVariant)
-        ) {
-            Text(
-                text = "About",
+                text = stringResource(R.string.over),
                 color = MaterialTheme.colors.onPrimary
             )
         }
@@ -91,11 +96,13 @@ fun BottomNavBar(
 fun ProductsDemoApp(
     modifier: Modifier = Modifier
 ){
+    val productenViewModel: ProductenViewModel = viewModel()
+
     Scaffold(
         topBar = { Topbar() },
-        bottomBar = { BottomNavBar() }
+        bottomBar = { BottomNavBar(productenViewModel) }
     ) {
-        val productenViewModel: ProductenViewModel = viewModel()
+
         ProductenLijst(
             productenUiState = productenViewModel.productenUiState,
             modifier = Modifier.padding(it)
@@ -115,7 +122,7 @@ fun ProductCard(
             .padding(8.dp)
     ) {
         Row(modifier = Modifier.padding(4.dp)) {
-            Text(text = "${product.naam} - €${product.prijs.toString()} - (${product.categorie})")
+            Text(text = "${product.naam} - €${product.prijs} - (${product.categorie})")
         }
     }
 
@@ -144,9 +151,3 @@ fun ProductenLijst(
 }
 
 
-@Composable
-fun ProductCardPreview() {
-    ComposeProductsDemoTheme {
-        //ProductCard(product = repository.producten[0])
-    }
-}

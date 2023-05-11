@@ -4,6 +4,8 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
 import retrofit2.Retrofit
+import retrofit2.http.Body
+import retrofit2.http.Headers
 import retrofit2.http.POST
 
 
@@ -25,4 +27,9 @@ interface ApiService {
     /* het /PRODUCTSget.php endpoint */
     @POST("PRODUCTSget.php")
     suspend fun getProducten(): ApiResponseProductsGet
+
+    /* het /PRODUCTSadd.php endpoint */
+    @Headers("Content-Type: application/json")
+    @POST("PRODUCTSadd.php")
+    suspend fun addProduct(@Body productData: ProductToSend): ApiResponseProductAdd
 }

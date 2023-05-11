@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Compose Products demo</string>
+    <string name="app_title">Demo SuperDuper Compose</string>
+    <string name="producten">Producten</string>
+    <string name="product_nieuw">Nieuw Product</string>
+    <string name="over">Over</string>
 </resources>
