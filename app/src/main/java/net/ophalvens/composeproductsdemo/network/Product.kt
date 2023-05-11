@@ -13,7 +13,7 @@ data class Product (
     @SerialName(value = "PR_CT_ID") val categorieId: Int
 
     /*
-    De achterliggende query in de API is :
+    De query in het endpoint van de API dat aangesproken wordt :
 
     SELECT PR_ID, PR_CT_ID, PR_naam, PR_prijs, CT_OM
     FROM producten2
