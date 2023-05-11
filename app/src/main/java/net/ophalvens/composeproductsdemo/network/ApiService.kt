@@ -32,4 +32,14 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     @POST("PRODUCTSadd.php")
     suspend fun addProduct(@Body productData: ProductToSend): ApiResponseProductAdd
+
+    /* het /PRODUCTSdelete.php endpoint */
+    // Hier wordt @POST gebruikt ipv @DELETE, om de bestaande apps en voobeelden niet te breken.
+    //
+    // Het volledige Product wordt nu meegegeven, maar in de API wordt in het endpoint enkel naar
+    // PR_ID gekeken voor de DELETE
+    @Headers("Content-Type: application/json")
+    @POST("PRODUCTSdelete.php")
+    suspend fun deleteProduct(@Body productData: Product): ApiResponseProductDelete
+
 }
