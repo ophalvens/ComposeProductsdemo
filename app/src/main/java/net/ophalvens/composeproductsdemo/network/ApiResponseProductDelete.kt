@@ -19,8 +19,9 @@ data class ApiResponseProductDelete(
     @SerialName(value = "status") val status: String, // "ok" of "fail"
     @SerialName(value = "data") val data: String? = null, // enkel indien status "ok"
     @SerialName(value = "error") val error: String? = null, // enkel indien status "fail"
-    @SerialName(value = "errNo") val errNo: String? = null, // enkel indien status "fail"
+    @SerialName(value = "errNo") val errNo: Int? = null, // enkel indien status "fail"
     @SerialName(value = "mysqlError") val mysqlError: String? = null, // enkel indien status "fail"
     @SerialName(value = "message") val message: String? = null, // enkel indien status "fail"
+
 
 )
