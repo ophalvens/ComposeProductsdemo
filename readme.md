@@ -21,8 +21,15 @@ Aangezien hier geen gegevens van de gebruiker voor deze query nodig zijn, is hie
 ### Toevoegen Product
 Het prepared-statement in de API :
 ``` 
-INSERT INTO producten2 (PR_naam, PR_CT_ID, PR_prijs) 
+INSERT INTO producten (PR_naam, PR_CT_ID, PR_prijs) 
 VALUES (?,?,?)
+```
+Omdat hier wel met gegevens van de gebruiker wordt gewerkt, maken we hier wel gebruik van een prepared statement met placeholders.
+
+### Verwijderen Product
+Het prepared-statement in de API :
+``` 
+DELETE FROM producten where PR_ID = ?
 ```
 Omdat hier wel met gegevens van de gebruiker wordt gewerkt, maken we hier wel gebruik van een prepared statement met placeholders.
 

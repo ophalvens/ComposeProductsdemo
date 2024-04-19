@@ -8,13 +8,13 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import net.ophalvens.composeproductsdemo.R
 import net.ophalvens.composeproductsdemo.network.Product
-import net.ophalvens.composeproductsdemo.ui.theme.ComposeProductsDemoTheme
 
 @Composable
 fun Topbar(
@@ -105,6 +105,7 @@ fun ProductsDemoApp(
 
         ProductenLijst(
             productenUiState = productenViewModel.productenUiState,
+            productenViewModel = productenViewModel,
             modifier = Modifier.padding(it)
         )
     }
@@ -114,15 +115,71 @@ fun ProductsDemoApp(
 @Composable
 fun ProductCard(
     product: Product,
+    // TODO : vervangen door het doorgeven van een lambda
+    productenViewModel: ProductenViewModel,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(8.dp),
+        elevation = 4.dp
+
+
     ) {
-        Row(modifier = Modifier.padding(4.dp)) {
-            Text(text = "${product.naam} - €${product.prijs} - (${product.categorie})")
+        Row(
+            modifier = Modifier
+                .padding(4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+
+
+
+        ) {
+            Column(
+
+            ) {
+                // 🍓 fruit (strawberry)
+                // 🥕 vegetable (carrot)
+                val cat = when(product.categorie) {
+                    "Fruit" -> "🍓"
+                    "Groenten" -> "🥕"
+                    else -> "🥕"
+                }
+                Text(
+                    text = "${cat} ${product.naam}"
+                )
+                Row(verticalAlignment = Alignment.CenterVertically){
+                    Icon(
+                        painter = painterResource(R.drawable.baseline_euro_24) ,
+                        tint = MaterialTheme.colors.primary,
+                        contentDescription = stringResource(id = R.string.delete),
+                        modifier = Modifier
+                            .padding(4.dp)
+                    )
+                    Text(
+                        text = "${product.prijs}"
+                    )
+                }
+
+            }
+
+            Column(
+
+            ){
+                IconButton(
+                    onClick = {
+                        productenViewModel.deleteProductFromService(product)
+                    }) {
+                    Icon(
+                        painter = painterResource(R.drawable.baseline_delete_24) ,
+                        tint = MaterialTheme.colors.primary,
+                        contentDescription = stringResource(id = R.string.delete)
+                    )
+                }
+            }
+
+
         }
     }
 
@@ -131,6 +188,7 @@ fun ProductCard(
 @Composable
 fun ProductenLijst(
     productenUiState: ProductenUiState,
+    productenViewModel: ProductenViewModel,
     modifier: Modifier = Modifier
 ) {
     if(productenUiState is ProductenUiState.Success) {
@@ -138,10 +196,12 @@ fun ProductenLijst(
             modifier = Modifier
                 .background(MaterialTheme.colors.primaryVariant)
                 .fillMaxSize()
+                .padding(bottom = 48.dp)
         ){
             val producten = productenUiState.data.data
             items(producten){
-                ProductCard(product = it)
+                // TODO : productenViewModel vervangen door een lambda
+                ProductCard(product = it, productenViewModel)
             }
         }
 
